@@ -2,18 +2,35 @@
 <html>
 
   <head>
-    <title>Twitter Bootstrap Beispiel</title>
+    <title>fm</title>
 
     <!-- Einbinden des Bootstrap-Stylesheets -->
     <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css">
   
+		<!-- AngularJS-->
+		<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+
+		<script>
+				var mainApp = angular.module("mainApp", []);
+			
+			mainApp.controller('recipeController',function($scope) {
+					$scope.recipe = {
+						title: "Baba Ganesh"
+					}
+			});
+		</script>
+
   </head>
 
   <body>
     <section class="container">
 		<!--div class="row"-->
 			<!--div class="col-sm-6 col-md-4"-->
-				<h3>Gericht</h3>
+
+		<div ng-app = "mainApp" ng-controller = "recipeController">
+	
+				<h3>{{recipe.title}}</h3>
+
 				<div class="thumbnail">
 				  <img src="http://cdn.jamieoliver.com/recipe-database/xtra_med/52813664.jpg" alt="...">
 				  <!--
@@ -21,9 +38,11 @@
 				  -->
 				  
 				</div>
+
 				<div>
 				<p>Source:<a href"http://www.orf.at">orf.at</a></p>
 				</div>
+
 				<div class="btn-group btn-group-justified" role="group" aria-label="...">
 					  <div class="btn-group" role="group">
 						<button type="button" class="btn btn-success btn-lg"> 
@@ -37,7 +56,8 @@
 						</button>
 					  </div>
 				</div>
-				
+
+		</div>		
 			<!--/div-->
 		<!--div-->  
     </section>
