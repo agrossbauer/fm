@@ -11,7 +11,40 @@
     <!-- Einbinden des Bootstrap-Stylesheets -->
     <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css">
   
-		
+		<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+
+	<script>
+			var mainApp = angular.module("mainApp", []);
+			
+			var recipecounter=-1;
+			
+			mainApp.controller('recipeController',function($scope) {
+				
+				$scope.recipe = {
+				  
+				
+				 recipeCollection : [
+				  {title: "Gericht1", img: "http://cdn.jamieoliver.com/recipe-database/xtra_med/51035095.jpg", rating: 0},
+				  {title: "Gericht2", img: "http://cdn.jamieoliver.com/recipe-database/xtra_med/52813664.jpg", rating: 0}],
+				 
+				  title: "",
+				  img: ""
+				  
+				};	
+				
+				
+								   				
+				$scope.btnOK = function() {
+					recipecounter++;
+					$scope.recipe.title=$scope.recipe.recipeCollection[recipecounter].title;
+					$scope.recipe.img=$scope.recipe.recipeCollection[recipecounter].img;
+					$scope.recipe.recipeCollection[recipecounter].rating = 1;
+					
+				};
+			
+			});
+			
+	</script>	
 
   </head>
 
@@ -25,7 +58,7 @@
 				<h3>{{recipe.title}}</h3>
 
 				<div class="thumbnail">
-				  <img src="http://cdn.jamieoliver.com/recipe-database/xtra_med/52813664.jpg" alt="...">
+				  <img ng-src="{{recipe.img}}" alt="...">
 				  <!--
 				  <img src="..." class="img-responsive" alt="test"/>
 				  -->
@@ -38,7 +71,7 @@
 
 				<div class="btn-group btn-group-justified" role="group" aria-label="...">
 					  <div class="btn-group" role="group">
-						<button type="button" class="btn btn-success btn-lg"> 
+						<button ng-click = "btnOK()" type="button" class="btn btn-success btn-lg"> 
 						     <span class="glyphicon glyphicon-ok"></span> Ja
 						</button>
 					  </div>
@@ -50,6 +83,25 @@
 					  </div>
 				</div>
 
+				<div>
+				
+         <table>
+            <tr>
+               <th>Name</th>
+               <th>Roll No</th>
+               <th>Percentage</th>
+            </tr>
+         
+            <tr ng-repeat = "x in recipe.recipeCollection">
+               <td>{{ x.title }}</td>
+               <td>{{ x.img }}</td>
+               <td>{{ x.rating }}</td>
+			   
+			   
+            </tr>
+         </table>
+
+				</div>
 		</div>		
 			<!--/div-->
 		<!--div-->  
@@ -63,17 +115,7 @@
  <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"></script>
 
 
-<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 
-<script>
-				var mainApp = angular.module("mainApp", []);
-			
-			mainApp.controller('recipeController',function($scope) {
-					$scope.recipe = {
-						title: "Baba Ganesh"
-					}
-			});
-</script>
  </body>
 
 </html>
