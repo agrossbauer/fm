@@ -3,17 +3,13 @@
 
   <head>
 
-		<meta http-equiv="X-UA-Compatible" content="IE=11" />
-
+	<meta http-equiv="X-UA-Compatible" content="IE=11" />
 
     <title>fm</title>
 
     <!-- Einbinden des Bootstrap-Stylesheets -->
     <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css">
   
-	
-
-
   </head>
 
   <body>
@@ -27,6 +23,14 @@
 
 		<div ng-app = "mainApp" ng-controller = "recipeController">
 	
+	
+    <a href="#">Home</a> | <a href="#cats">Cats</a>
+	
+	
+    <div ng-view></div>
+
+	
+	<div ng-hide="hideme">
 				<h3>{{recipe.title}}</h3>
 
 				<div class="thumbnail">
@@ -54,29 +58,30 @@
 						</button>
 					  </div>
 				</div>
-
-				<div>
-				
-         <table>
-            <tr>
-               <th>Name</th>
-               <th>Roll No</th>
-               <th>Percentage</th>
-            </tr>
-         
-            <tr ng-repeat = "x in recipe.recipeCollection">
-               <td>{{ x.title }}</td>
-               <td>{{ x.img }}</td>
-               <td>{{ x.rating }}</td>
-			   
-			   
-            </tr>
-         </table>
-				</div>
+		</div>
+		<div ng-hide="!hideme">
+				<br/>
+				<table class="table table-bordered">
+					<tr>
+					   <th>Titel</th>
+					   <th>Bild</th>
+					   <th class="text-center">Auswahl</th>
+					</tr>
+				 
+					<tr ng-repeat = "x in recipe.recipeCollection">
+					   <td>{{ x.title }}</td>
+					   <td>{{ x.img }}</td>
+					   <td class="text-center">
+							<span ng-hide="x.rating" class="glyphicon glyphicon-ok" ></span>
+							<span ng-hide="!x.rating" class="glyphicon glyphicon-remove" ></span>
+					   </td>
+					</tr>
+				</table>
+		</div>
 	
 	 
 	 
-      
+<!--      
          <table>
             <tr>
                <th>Name</th>
@@ -89,7 +94,10 @@
                <td>{{ student.RollNo }}</td>
                <td>{{ student.Percentage }}</td>
             </tr>
-         </table>
+         </table> 
+-->
+		 
+		 
       </div>
       	
 			<!--/div-->
@@ -97,57 +105,95 @@
     </section>
  
 
- <!-- optional: Einbinden der jQuery-Bibliothek -->
- <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+	 <!-- optional: Einbinden der jQuery-Bibliothek -->
+	 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
 
- <!-- optional: Einbinden der Bootstrap-JavaScript-Plugins -->
- <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"></script>
+	 <!-- optional: Einbinden der Bootstrap-JavaScript-Plugins -->
+	 <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"></script>
 
- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
- <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.min.js"></script>
+	 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	 <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.min.js"></script>
 
  <script>
  
 
          
  
-			var mainApp = angular.module("mainApp", []);
+			var mainApp = angular.module('mainApp', ['ngRoute']);
 			
-			var recipecounter=-1;
+			var recipecounter=0;
 			
-			mainApp.controller('recipeController',function($scope,$http) {
+			mainApp.controller('recipeController',['$scope',recipeController]);
+					
+mainApp.controller('RootCtrl', ['$scope', function($scope){
+   
+	$scope.title = "Home Page";
+}]);
+
+mainApp.controller('CatsCtrl', ['$scope', function($scope){
+    
+	$scope.title = "Cats Page";
+}]);
+
+mainApp.config(['$routeProvider', function($routeProvider){
+    $routeProvider
+        .when('#', {
+            controller : 'RootCtrl',
+            template : '<h1>{{title}}</h1>'
+        })
+        .when('#cats', {
+            controller : 'CatsCtrl',
+            template : '<h1>{{title}}</h1>'
+        })
+        .otherwise({
+		
+            redirectTo : '/'
+        });
+}]);
+
+			function recipeController($scope,$http) {
+				 
+				$scope.hideme = false;
 				
 				$scope.recipe = {
 				  
 				
 				 recipeCollection : [
-				  {title: "Gericht1", img: "http://cdn.jamieoliver.com/recipe-database/xtra_med/51035095.jpg", rating: 0},
-				  {title: "Gericht2", img: "http://cdn.jamieoliver.com/recipe-database/xtra_med/52813664.jpg", rating: 0}],
+				  {title: "Gericht1", img: "http://cdn.jamieoliver.com/recipe-database/xtra_med/51035095.jpg", rating: false},
+				  {title: "Gericht2", img: "http://cdn.jamieoliver.com/recipe-database/xtra_med/52813664.jpg", rating: false}],
 				 
+				 
+				  //title: $scope.recipe.recipeCollection[0].title,
 				  title: "",
 				  img: ""
-				  
-				};	
 				
-										   				
+			
+				};	
+				 
+				$scope.recipe.title=$scope.recipe.recipeCollection[0].title;
+				$scope.recipe.img=$scope.recipe.recipeCollection[0].img;
+				
 				$scope.btnOK = function() {
-					recipecounter++;
+					if( recipecounter++<1)
+					{
 					$scope.recipe.title=$scope.recipe.recipeCollection[recipecounter].title;
 					$scope.recipe.img=$scope.recipe.recipeCollection[recipecounter].img;
-					$scope.recipe.recipeCollection[recipecounter].rating = 1;
+					$scope.recipe.recipeCollection[recipecounter].rating = true;
+					}
+					else{$scope.hideme = true;}
 					
 				};
 				
-				var url = "data.txt";
+				/*var url = "data.txt";
 
 				    $http.get(url).then( function(response) {
 				       $scope.students = response.data;
-				    });
+				    });*/
 				
 				
 						
-			});
-		
+			};
+		//);
 			
 			
 
