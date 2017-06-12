@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html  ng-app="mainApp">
 
   <head>
 
@@ -9,11 +9,11 @@
 
     <!-- Einbinden des Bootstrap-Stylesheets -->
     <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css">
-  
+   
   </head>
 
   <body>
-    <section class="container">
+    <div class="container">
 		<!--div class="row"-->
 			<!--div class="col-sm-6 col-md-4"-->
 
@@ -21,16 +21,16 @@
 		
 		
 
-		<div ng-app = "mainApp" ng-controller = "recipeController">
+		<div ng-app="ratingApp" ng-controller="ratingController">
 	
 	
-    <a href="#">Home</a> | <a href="#cats">Cats</a>
+ 
 	
 	
-    <div ng-view></div>
+
 
 	
-	<div ng-hide="hideme">
+		<div ng-hide="hideme">
 				<h3>{{recipe.title}}</h3>
 
 				<div class="thumbnail">
@@ -59,6 +59,7 @@
 					  </div>
 				</div>
 		</div>
+		
 		<div ng-hide="!hideme">
 				<br/>
 				<table class="table table-bordered">
@@ -78,130 +79,27 @@
 					</tr>
 				</table>
 		</div>
-	
-	 
-	 
-<!--      
-         <table>
-            <tr>
-               <th>Name</th>
-               <th>Roll No</th>
-               <th>Percentage</th>
-            </tr>
-         
-            <tr ng-repeat = "student in students">
-               <td>{{ student.Name }}</td>
-               <td>{{ student.RollNo }}</td>
-               <td>{{ student.Percentage }}</td>
-            </tr>
-         </table> 
--->
+
 		 
-		 
-      </div>
+	</div>
       	
-			<!--/div-->
-		<!--div-->  
-    </section>
- 
-
-	 <!-- optional: Einbinden der jQuery-Bibliothek -->
-	 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
-
-	 <!-- optional: Einbinden der Bootstrap-JavaScript-Plugins -->
-	 <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"></script>
-
-	 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-	 <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.min.js"></script>
-
- <script>
- 
-
-         
- 
-			var mainApp = angular.module('mainApp', ['ngRoute']);
-			
-			var recipecounter=0;
-			
-			mainApp.controller('recipeController',['$scope',recipeController]);
-					
-mainApp.controller('RootCtrl', ['$scope', function($scope){
-   
-	$scope.title = "Home Page";
-}]);
-
-mainApp.controller('CatsCtrl', ['$scope', function($scope){
-    
-	$scope.title = "Cats Page";
-}]);
-
-mainApp.config(['$routeProvider', function($routeProvider){
-    $routeProvider
-        .when('#', {
-            controller : 'RootCtrl',
-            template : '<h1>{{title}}</h1>'
-        })
-        .when('#cats', {
-            controller : 'CatsCtrl',
-            template : '<h1>{{title}}</h1>'
-        })
-        .otherwise({
 		
-            redirectTo : '/'
-        });
-}]);
+    </div>
+ 
 
-			function recipeController($scope,$http) {
-				 
-				$scope.hideme = false;
-				
-				$scope.recipe = {
-				  
-				
-				 recipeCollection : [
-				  {title: "Gericht1", img: "http://cdn.jamieoliver.com/recipe-database/xtra_med/51035095.jpg", rating: false},
-				  {title: "Gericht2", img: "http://cdn.jamieoliver.com/recipe-database/xtra_med/52813664.jpg", rating: false}],
-				 
-				 
-				  //title: $scope.recipe.recipeCollection[0].title,
-				  title: "",
-				  img: ""
-				
-			
-				};	
-				 
-				$scope.recipe.title=$scope.recipe.recipeCollection[0].title;
-				$scope.recipe.img=$scope.recipe.recipeCollection[0].img;
-				
-				$scope.btnOK = function() {
-					if( recipecounter++<1)
-					{
-					$scope.recipe.title=$scope.recipe.recipeCollection[recipecounter].title;
-					$scope.recipe.img=$scope.recipe.recipeCollection[recipecounter].img;
-					$scope.recipe.recipeCollection[recipecounter].rating = true;
-					}
-					else{$scope.hideme = true;}
-					
-				};
-				
-				/*var url = "data.txt";
+ 
+ <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+ <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+ <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.min.js"></script>
+ <script src="app/app.module.js"></script>
+ <script src="app/rating/rating.module.js"></script>
 
-				    $http.get(url).then( function(response) {
-				       $scope.students = response.data;
-				    });*/
-				
-				
-						
-			};
-		//);
-			
-			
+ 
 
-			
 
-			
-			
-	</script>	
+
+	 
 	
 
  </body>
