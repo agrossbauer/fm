@@ -1,1 +1,1 @@
-var app = angular.module('mainApp', ['ngRoute',"ratingApp"]);
+var app = angular.module('mainApp', ['ngRoute',"ratingApp","headerApp"]);
